@@ -31,11 +31,29 @@ In Flux pattern react is "View/Ui/Presentation" Layer.
 
 In Flux Pattern data is changed via "One directional Flow", You cant change data directly.
 
+2.Coding style
+  
+ Any User interface development frameworks provides 
+  1.Markup  - html code,css
+  2.Data 
 
+Angular isloates 
+  markup(html,css) into separate  called "templates"
+  data into services(holding data and biz logic)
 
+React isloates
+  markup into js code
+  data into js code- hooks,state  management libs like redux...
+ React embeds everything into javascript...
 
+Programming files 
+  Angular maintains lot of files, components,services,modules,directives,filters etc..which makes code base heavier
 
+  React maintains very less code - components,statement management files,hooks...
 
+Common things in both:
+
+ Component driven, props
 
 
 
