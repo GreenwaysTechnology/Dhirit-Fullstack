@@ -1,0 +1,41 @@
+			 React/React.js
+.....................................................................................
+
+What is react?
+ A JavaScript library for building user interfaces.
+
+What is Angular?
+  Angular is javascript framework for building user interfaces
+
+What is Vue.js?
+ Vue.js is javascript framework for building user interfaces
+
+What is lib and framework?
+
+ lib solves only one problem where as framework provides every thing end to end to build apps
+
+Angular vs React:
+
+1.Design pattern
+
+ Angular uses traditional MVC design pattern 
+
+React uses "Flux" design pattern
+
+Flux is new design pattern to design ui invented by facebook.
+ https://facebookarchive.github.io/flux/
+
+https://facebookarchive.github.io/flux/docs/in-depth-overview
+
+In Flux pattern react is "View/Ui/Presentation" Layer.
+
+In Flux Pattern data is changed via "One directional Flow", You cant change data directly.
+
+
+
+
+
+
+
+
+
