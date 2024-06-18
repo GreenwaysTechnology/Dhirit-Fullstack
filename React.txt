@@ -54,6 +54,137 @@ Programming files
 Common things in both:
 
  Component driven, props
+.....................................................................................
+			     DOM
+			 Virtual DOM
+.....................................................................................
+
+What is DOM?
+   DOM is specification  released by W3c organgization,in order to build web apps for browsers.
+https://www.w3.org/TR/1998/WD-DOM-19980416/		
+
+in order to understand DOM fully , we need to understand HTML very deeply.
+
+source code
+
+hello.java
+hello.c
+hello.cpp
+hello.py
+hello.js
+ ----->compiled ?
+to generate assembly instructions
+
+|
+compiled code - assembly instruction
+ hello.class
+ hello.obj
+|
+Execute
+ final output
+
+HTML:
+
+1.HTML IS PL? 
+  - YES
+2.HTML Is compiled 
+  -YES
+  HTML source code is compiled into assembly. 
+
+3.HTML is executed?
+  Yes
+
+source code:
+
+index.html
+
+<html>
+<head></head>
+<title><title>
+<body>
+  <div>
+     <h1>Welcome</h1>
+  </div>
+</body>
+</html>
+
+|
+-------------------Browser
+loader---LOAD Code into browser
+ |
+  from file: or http:
+ |
+Parser :
+   Parser is special compiler which converts source into lexcial tree(string tree)
+
+body
+  div
+     h1
+        Welcome 
+     h1
+  div
+body
+|
+ Complier-Compilation : Convert this into assembly
+|
+body -load xxx
+  div
+     h1
+        Welcome 
+     h1
+  div
+body
+
+.....................................................................................
+				Runtime 
+.....................................................................................
+HTML Execution engine : Request Os ,to allocate memory :Runtime
+
+-LinkedList
+body -Node
+ div -Node
+     h1 -Node
+        Welcome -Node
+     h1
+  div
+body
+
+|
+ Linking the Nodes: Tree
+body  -Node
+  |
+  div -Node
+    |
+     h1 -Node
+      |
+        Welcome -Node
+        |
+     h1
+  div
+ |
+Layout/Paint Engine: will convert nodes into pxs : final output
+
+.....................................................................................
+         Static web pages: htmls are displayed into browser.
+.....................................................................................
+In 1996,Netscap communication,Started an RND project called "How to manipulate the tree"
+
+Tree is written in c language,then we need another c program to communicate.
+
+But NETSCAP decided not to use C pl.
+
+Netscap wanted to put java like implementation inside browser to manipulate "Tree".
+
+			That is birth of javascript
+......................................................................................
+
+
+
+
+
+
+
+
 
 
 
