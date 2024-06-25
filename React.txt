@@ -287,6 +287,313 @@ document.replaceChild(new, old)	Replace an HTML element
 
 /////////////////////////////////////////////////////////////////////////////////////
 
+..................................................................................
+		Birth of Java script libs and frameworks
+....................................................................................
+In 2001,DOM Wrappers - libs /frameworks came into picture.
+ DOJO
+2005, JQuery
+
+After 2006 , community people started introducing so many js frameworks and libs..
+
+Most Popular libs and frameworks
+
+1.JQuery
+2.Angular.js
+3.Dojo
+4.Extjs
+5.Angular
+6.React
+7.Vue js
+etc.....
+
+Architecture tech stack for dom programming
+
+
+Plain JS
+			 Application(dom) -plain js
+			     |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+Framework/lib
+			 Application(JQuery)
+			     |
+		       ---------------------------
+			  JQuery Engine	------javascript programming		
+                       -------------------------------
+			      |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+
+
+
+Angular
+			 Application(Angular)
+			     |
+		       ---------------------------
+			  Angular Engine : Renderer(Ng2) Renderer2(Ng4,5),Ivy(6,7)		              -------------------------------
+			      |
+			 Javascript Engine
+			      |
+			  Browser Engine
+
+React
+
+
+		       Application(React)
+			     |
+		       ---------------------------
+	             React Engine :React fiber-->React 16 on wards		
+                       -------------------------------
+			      |
+			 Javascript Engine
+			      |
+			  Browser Engine
+.....................................................................................
+
+How react represents dom inside react engine?
+
+Based on VDOM(Virtual DOM) specification...
+	The virtual DOM (VDOM) is a programming concept where an ideal, or “virtual”, representation of a UI is kept in memory and synced with the “real” DOM by a library such as ReactDOM. This process is called reconciliation.
+
+React is created by face book.
+
+React was created not for others but created for face book one of the use case called "Buddylist" / chat application.
+
+instagram web version was fully built by react.
+
+React most implementations
+
+1.flipkart ui is written react.
+2.espn cric info
+3.facebook use case chat , graph....
+4.netflix
+etc......
+
+Where we can use React ? What type of application we can build using react.
+
+Single Page web app...
+
+Data intensive application // Data driven app
+ where more data , which are chainging rapidly, where you want to update ui very faster with out ui flickering.
+
+React can be used to build application for 
+
+.........................................
+1.browsers : Desktop
+2.Mobile Apps : React Native
+
+face book is working on many futures projects related to react
+
+3.React VR : Virtual Reality.
+4.React Car : For car applications
+5.React TV (React Native)  : React for TV.
+6.React IOT : any devices
+
+We are going to learn react web for browsers.
+
+React core modules:
+
+react.js      => Core module
+react-dom.js  => Browser
+.....................................................................................				React and ui building
+...................................................................................
+React uses  a small programming language to describe UI called "JSX"
+
+As we discussed React is used in many app dev like browser,mobile,tv apps.
+
+Each app type(browser,mobile) has its own JSX syntax...
+
+Browser jsx uses HTML as language
+Mobile Jsx uses "Mobile markup" as language.
+
+-----------------------------------------------------------------------------
+ Markup layer             |  React Core Engine    | Render Engine   | Target
+-----------------------------------------------------------------------------
+
+HTML Markup---------------|  Object Tree(V.DOM)   | ReactDom.render |  Browser
+
+Mobile Markup-------------|  Object Tree          |ReactNative.render| Mobile 						   /Tabs/TV
+
+..............
+VR Markup---------------  |  Object Tree          |VR.render         |VR devices
+
+IOT Markup--------------- |  Object Tree          | IOT.render       |IOT Devices   
+....................................................................................
+Object Tree :
+
+Note : in js every html element is object, in browser every element is node which forms tree.
+<div>
+   <h1>
+       hello
+   </h1>
+       |
+       div
+          |
+          h1
+            hello
+
+         |
+         divObject
+		|
+		H1 Object
+			hello
+
+
+		|
+		React engine
+		   |
+
+.....................................................................................
+			 React Project Setup
+.....................................................................................
+We are going to build single page web app.
+
+React teams offers tool set to create react project.
+
+create-react-app
+ now this tool has been depreciated.
+
+now a days we are using vite based tool to create react projects.
+
+npm create vite@latest
+
+G:\dhiriti>npm create vite@latest
+Need to install the following packages:
+create-vite@5.3.0
+Ok to proceed? (y) y
+
+
+> npx
+> create-vite
+
+√ Project name: ... hello-react
+√ Select a framework: » React
+√ Select a variant: » JavaScript
+
+Scaffolding project in G:\dhiriti\hello-react...
+
+Done. Now run:
+
+  cd hello-react
+  npm install
+  npm run dev
+
+Project structure:
+package.json
+{
+  "name": "hello-react",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "vite": "^5.3.1"
+  }
+}
+
+entry file:
+main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+index.html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+...................................................................................
+			DOM programming using plain js
+...................................................................................
+
+//how to create a dom element and update on existing tree
+function createElement() {
+  const HeadingElement=document.createElement('h1')
+  HeadingElement.innerHTML='Hello React'
+  const rootElement = document.getElementById('root')
+  rootElement.appendChild(HeadingElement)
+  //console.log(HeadingElement)
+}
+createElement();
+....................................................................................
+			DOM element creation using React
+....................................................................................
+
+main.jsx
+
+import ReactDOM from 'react-dom/client'
+
+//DOM element creation
+//here we mix html + js code => jsx
+const HeadingElement = <h1>Hello React!</h1>
+// const rootElement =  document.getElementById('root')
+// const root=ReactDOM.createRoot(rootElement)
+// //vdom into real dom
+// root.render(HeadingElement)
+
+ReactDOM.createRoot(document.getElementById('root')).render(HeadingElement)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
