@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client'
+import React from 'react'
 
 //DOM element creation
 //here we mix html + js code => jsx
