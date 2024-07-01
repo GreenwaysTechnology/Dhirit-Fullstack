@@ -1110,6 +1110,7 @@ if yo want to use bootstrap
 npm i bootstrap
 
 src/main.jsx
+
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
@@ -1121,13 +1122,60 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 )
+.....................................................................................
+			 Data && React
+....................................................................................
+
+Data Binding:
+
+Data can be attached in react using {}
+
+How to represent data?
+->primitives - string,numbers,boolean
+->objects - object,arrays
+
+How to bind data?
+  {variable} {expression}
+ 
+  {a} {fun()} {10*2} {isHidden ? 'Show':'Hide'} 
+
+..................................................................................
+			   Data Binding Patterns
+
+1.property binding aka props pattern
+2.State binding aka state pattern.
+
+props Pattern:
+
+npm create vite@latest
+
+props-pattern
+.....................................................................................
+
+When you think about component , you should thing about resuablity..
 
 
+src/gallery/Gallary.jsx
+import { Profile } from "../profile/Profile"
 
+export function Gallery() {
+    let dided = " 7 June 1954 (aged 41) Wilmslow, Cheshire, England"
+    return <>
+        <h1>Scientists / Computer</h1>
+        <Profile name={"Alan Turing"} born={"23 June 1912"} died={dided} isAlive={false} />
+        <Profile name={"Timothy John Berners-Lee"} born={"23 June 1912"} isAlive={true}  />
+    </>
+}		
+src/profile/Profile.jsx
 
-
-
-
+//props = object
+export const Profile = (props) => {
+    return <section>
+        <h3>{props.name}</h3>
+        <h4>Born : {props.born}</h4>
+        {!props.isAlive ? <h4>{`Died: ${props.died}`}</h4> : null}
+    </section>
+}
 
 
 
