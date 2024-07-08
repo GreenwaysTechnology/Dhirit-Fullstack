@@ -1240,14 +1240,379 @@ export const Profile = ({ name='Scientists Name', born='01 Jan 1900', isAlive=fa
     <h4>Born : {born}</h4>
     {!isAlive ? <h4>{`Died: ${died}`}</h4> : null}
 </section>
+.....................................................................................
+			 Property Rethrow
+.....................................................................................
 
 
 
+//props = object
+// export const Profile = (props) => {
+//     return <section>
+//         <h3>{props.name}</h3>
+//         <h4>Born : {props.born}</h4>
+//         {!props.isAlive ? <h4>{`Died: ${props.died}`}</h4> : null}
+//     </section>
+// }
+
+//destructure
+// export const Profile = (props) => {
+//     const { name, born, isAlive, died } = props
+//     return <section>
+//         <h3>{name}</h3>
+//         <h4>Born : {born}</h4>
+//         {!isAlive ? <h4>{`Died: ${died}`}</h4> : null}
+//     </section>
+// }
+
+// export const Profile = ({ name='Scientists Name', born='01 Jan 1900', isAlive=false, died='01 Jan 1900' }) => <section>
+//     <h3>{name}</h3>
+//     <h4>Born : {born}</h4>
+//     {!isAlive ? <h4>{`Died: ${died}`}</h4> : null}
+// </section>
+
+// //default props
+// Profile.defaultProps={
+//     name:'Scientists Name',
+//     born: '01 Jan 1900',
+//     isAlive:false,
+//     died:'23 June 1912'
+
+// }
+
+// export const Profile = ({ name = 'Scientists Name', born = '01 Jan 1900', isAlive = false, died = '01 Jan 1900' }) => <section>
+//     {/* here we are rethrowing all properties to another component */}
+//     <ProfileDetails name={name} born={born} isAlive={isAlive} died={died} />
+// </section>
 
 
 
+// export const Profile = (props) => <section>
+//     {/* here we are rethrowing all properties to another component */}
+//     <ProfileDetails name={props.name} born={props.born} isAlive={props.isAlive} died={props.died} />
+// </section>
+export const Profile = (props) => <section>
+    {/* Rethrowing all properties to another component using Spread Notation */}
+    <ProfileDetails {...props} salution="Mr/Mrs."/>
+</section>
+
+export const ProfileDetails = ({salution="Mr/Mrs.", name = 'Scientists Name', born = '01 Jan 1900', isAlive = false, died = '01 Jan 1900' }) => {
+    return <><h3>{salution} {name}</h3>
+        <h4>Born : {born}</h4>
+        {!isAlive ? <h4>{`Died: ${died}`}</h4> : null}
+    </>
+}
+.....................................................................................				Inline Styling
+....................................................................................
+
+<div class="cssClass">
+
+<div style={}>
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const Header = () => {
+
+    return <div>
+        <h1 style={styles.heading}>Header</h1>
+        <h2 style={{ color: 'blue', fontFamily: "sans-serif" }}>Your Company Goes Here</h2>
+    </div>
+}
+const styles = {
+    heading: {
+        color: 'red'
+    }
+}
 
 
+const App = () => {
+    return <Header>
+
+    </Header>
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+.....................................................................................
+				What can be prop
+.....................................................................................
+
+1.Prop can be data
+2.Prop can another component or element
+..
+3.Prop can be function
+4.Prop can be state(dynamic prop)
+
+
+
+1.Prop can another component or element.
+
+How to render component
+
+ <Grid></Grid> -  Grid can have children: passing prop
+ <Grid/> -  Grid has no children
+ 
+Parent-Child Relation ship:
+
+cont A = ()=>{
+  return <B/>
+}
+Parent-Child Relation ship:
+ via props
+
+<Layout> -parent
+	<Page>-child
+		<Header> -child
+		   <Logo> -child
+
+		   </Image>
+		</Header>
+	</Page>
+</Layout>  
+.....................................................................................
+			Component as Prop
+
+.....................................................................................
+
+Use case : Without component as prop.
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const Page = () => {
+    return <h1>Page</h1>
+}
+const Header = () => {
+    return <h1>Header</h1>
+}
+const Footer = () => {
+    return <h1>Footer</h1>
+}
+const Layout = () => {
+    return <div>
+        <Header />
+        <Page />
+        <Footer />
+    </div>
+}
+
+const App = () => {
+    return <>
+        <Layout />
+    </>
+
+}
+
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+...................................................................................
+
+Use case: Component strucutre with props:
+.........................................
+
+<Layout> -parent
+	<Page>-child
+		<Header> -child
+		   <Logo> -child
+
+		   </Image>
+		</Header>
+	</Page>
+</Layout>  
+
+.....................................................................................
+			Component as Prop
+
+.....................................................................................
+
+Use case : Without component as prop.
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const Page = () => {
+    return <h1>Page</h1>
+}
+const Header = () => {
+    return <h1>Header</h1>
+}
+const Footer = () => {
+    return <h1>Footer</h1>
+}
+const Layout = () => {
+    return <div>
+        <Header />
+        <Page />
+        <Footer />
+    </div>
+}
+
+const App = () => {
+    return <>
+        <Layout />
+    </>
+
+}
+
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+
+Use case : with Props:
+......................
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const Page = ({ children }) => {
+    return <>
+        {children}
+    </>
+}
+const Header = ({ title }) => {
+    return <h1>{title}</h1>
+}
+const Footer = () => {
+    return <h1>Footer</h1>
+}
+const Layout = (props) => {
+    return <div>
+        {props.children}
+    </div>
+}
+const User = (props) => {
+    console.log(props)
+    return <div>
+        <img src={props.imageSrc} alt='Your Image' />
+        <h1>{props.id}</h1>
+        <p>{props.userName}</p>
+        <p>{props.mail}</p>
+        <p>{props.status ? "Available" : "Not Available"}</p>
+    </div>
+}
+
+
+const App = () => {
+    const imageSrc = 'https://i.imgur.com/7vQD0fPs.jpg'
+
+    return <>
+        <Layout>
+            {/* Passing Header as prop */}
+            <Header title="User Information system">
+                 
+            </Header>
+            {/* Passing Page as prop */}
+            <Page>
+                <User userName={"Ram"} id={2} mail={"ram@gmail.com"} status={true} imageSrc={imageSrc} />
+            </Page>
+            {/* Passing Footer as prop */}
+            <Footer />
+        </Layout >
+    </>
+
+}
+
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+.....................................................................................
+			  List : How to render array
+.....................................................................................
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const List = props => {
+    return <div>
+        <ul>
+            {
+                props.names.map(name=>{
+                    return <li>{name}</li>
+                })
+            }
+        </ul>
+    </div>
+}
+
+const App = () => {
+    const names = ['Subramanian', 'Murugan', 'Geetha', 'DhiviyaSree', 'Shirisha']
+    return <div>
+        <h1>List</h1>
+        <List names={names}/>
+    </div>
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+
+.....................................................................................
+			 Object List Rendering
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+import POSTS from './mock-data/posts'
+
+const Posts = ({ posts }) => {
+    return <>
+        {
+            posts.map(post => {
+                return <section key={post.id}>
+                     <h1>{post.id}</h1>
+                     <h3>{post.title}</h3>
+                     <p style={{fontFamily:'sans-serif', color:'Highlight'}}>{post.body}</p>
+                </section>
+            })
+        }
+    </>
+}
+
+const App = () => {
+    return <div>
+        <h1>POSTS</h1>
+        <Posts posts={POSTS} />
+    </div>
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+
+Task:
+
+By using list
+
+1.Card View
+2.Table View /Grid View
+.....................................................................................
 
 
 
