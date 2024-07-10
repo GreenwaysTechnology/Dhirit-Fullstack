@@ -1612,8 +1612,215 @@ By using list
 
 1.Card View
 2.Table View /Grid View
-.....................................................................................
+...................................................................................
+			   State Pattern
+		       (Dynamic User Interface)
+			 (Event Handling)
+....................................................................................
 
+What is state?
+  State is another way of representing data in React.
+
+As of we have seen data is not changing or updating...
+
+How to introduce State?
+
+There are two ways
+
+1.class pattern 
+   It is legacy way of representing state and Managining state
+   It is not recommended..
+
+2.Function pattern
+    It is modern way of representing state
+    State is represented via "Hook".
+
+
+1.class pattern 
+
+Declare class:
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+
+class Review extends React.Component {
+
+    render() {
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+..................................................................................
+Declare data:
+
+React.Component is super class , which is having properites and methods
+
+Methods:
+
+1.lifecycle methods
+2.setState
+3.forceUpdate()
+
+Instance Properties
+
+1.state
+2.props
+
+state default value is null, that means we need to initalize state variable with data.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+
+here out put would be "null"
+
+...
+
+How to declare state?
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 0
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+..............
+How to bind state in UI, what is initial state.
+
+Initial state means, the state(data) is associated with UI during first rendering.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 10
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+            <h5>Like {this.state.like}</h5>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+
+....................................................................................
+			  Event Handler
+....................................................................................
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 10
+    }
+    //listener: arrow function
+    onLike = () => {
+        console.log('like')
+    }
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+            <h5>Like {this.state.like}</h5>
+            <button onClick={this.onLike}>😁</button>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
 
 
 
