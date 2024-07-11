@@ -9,7 +9,15 @@ class Review extends React.Component {
     }
     //listener
     onIncrement = () => {
-        console.log('onincrement')
+        //pure function and immutable.
+        this.setState((prevState) => {
+            //return immutable
+            // return {
+            //     like: prevState.like + 1
+            // }
+            // return Object.assign({}, prevState, { like: prevState.like + 1 })
+            return { ...prevState, like: prevState.like + 1 }
+        })
     }
 
     render() {
