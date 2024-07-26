@@ -1,43 +1,48 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { produce } from 'immer';
 import './index.css'
 
-class Review extends React.Component {
+class HouseRating extends React.Component {
 
     state = {
-        like: 0,
-        dislike: 0
+        house: {
+            name: 'RavenClaw',
+            points: 10
+        }
     }
-
+    onIncreasePointsByTwo = () => {
+        this.setState((prveState) => {
+            // return {
+            //     ...prveState,  //level -0 copy
+            //      house: {
+            //         ...prveState.house, // level-1 copy : copy all properties within house 
+            //         points: prveState.house.points+ 2
+            //      }
+            // }
+            return produce(prveState, (draft) => {
+                //simple js way 
+                draft.house.points += 2
+            })
+        })
+    }
     render() {
-        console.log(this.state)
-        return <>
-            <h1>Review</h1>
-            <h2>Like: {this.state.like} Dislike: {this.state.dislike}</h2>
-            {/* inline listener */}
-            <button onClick={() => {
-                this.setState((prevState) => {
-                    //return immutable object
-                    return { ...prevState, like: prevState.like + 1 }
-                })
-            }}>Like</button>
-            <button onClick={() => {
-                this.setState((prevState) => {
-                    //return immutable object
-                    return { ...prevState, dislike: prevState.dislike + 1 }
-                })
-            }}>Dislike</button>
-
-        </>
+        return <div>
+            <h1>House Rating Component</h1>
+            <h3>House Name : {this.state.house.name}</h3>
+            <h3>Points : {this.state.house.points}</h3>
+            <button onClick={this.onIncreasePointsByTwo}>Rate</button>
+        </div>
     }
 }
+
 
 const App = () => {
-    return <Review />
+    return <>
+        <HouseRating />
+    </>
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-)
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
