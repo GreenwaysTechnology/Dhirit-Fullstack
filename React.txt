@@ -2816,6 +2816,196 @@ const [state,setState]=useState(null)
 const [state,setState]=useState({count:0})
 const [state,setState]=useState([])
 
+eg:
+import React, { useState } from "react"
+
+class Review extends React.Component {
+
+  state = {
+    like: 0
+  }
+  onIncrement = () => {
+    this.setState((prevState) => {
+      return {
+        like: prevState.like + 1
+      }
+    })
+  }
+  render() {
+    return <>
+      <h1>{this.state.like}</h1>
+      <button onClick={this.onIncrement}>+</button>
+    </>
+  }
+}
+
+const Counter = () => {
+  const [counter, setCounter] = useState(0)
+  const onIncrement = () => {
+    // setCounter((prevState) => {
+    //   return prevState + 1
+    // })
+    setCounter(counter + 1)
+  }
+  return <>
+    <h1>{counter}</h1>
+    <button onClick={onIncrement}>+</button>
+  </>
+
+}
+
+
+export default function App() {
+  return <div>
+    <Counter />
+  </div>
+}
+.....................................................................................
+				Multi State
+.....................................................................................
+
+import React, { useState } from "react"
+
+const Review = () => {
+    const [like, setLike] = useState(0)
+    const [dislike, setDislike] = useState(0)
+    return <>
+        <h1>{like} {dislike}</h1>
+        <button onClick={() => {
+            setLike(like + 1)
+        }}>Like</button>
+        <button onClick={() => {
+            setDislike(dislike + 1)
+        }}>Dislike</button>
+    </>
+
+}
+
+
+export default function App() {
+    return <div>
+        <Review />
+    </div>
+}
+.....................................................................................
+			    Hooks and Object
+....................................................................................
+
+import React, { useState } from "react"
+
+const Review = () => {
+
+    const [review, setReview] = useState({ like: 0, dislike: 0 })
+
+    return <>
+        <h1>{review.like} {review.dislike}</h1>
+        <button onClick={() => {
+            setReview((prevState) => {
+                return { ...prevState, like: prevState.like + 1 }
+            })
+        }}>Like</button>
+        <button onClick={() => {
+            setReview((prevState) => {
+                return { ...prevState, dislike: prevState.dislike + 1 }
+            })
+        }}>Dislike</button>
+    </>
+
+}
+
+
+export default function App() {
+    return <div>
+        <Review />
+    </div>
+}
+.................................................................................
+			   Hooks with immerjs
+...................................................................................
+import React, { useState } from "react"
+import { produce } from "immer"
+
+const Review = () => {
+
+    const [review, setReview] = useState({ like: 0, dislike: 0 })
+
+    return <>
+        <h1>{review.like} {review.dislike}</h1>
+        <button onClick={() => {
+            setReview((prevState) => {
+                // return { ...prevState, like: prevState.like + 1 }
+                return produce(prevState, (draft) => {
+                    draft.like += 1
+                })
+            })
+        }}>Like</button>
+        <button onClick={() => {
+            setReview((prevState) => {
+                // return { ...prevState, dislike: prevState.dislike + 1 }
+                return produce(prevState, (draft) => {
+                    draft.dislike += 1
+                })
+            })
+        }}>Dislike</button>
+    </>
+
+}
+
+
+export default function App() {
+    return <div>
+        <Review />
+    </div>
+}
+.....................................................................................
+			 How to get input from the user
+.....................................................................................
+
+import React, { useState } from "react"
+import { produce } from "immer"
+
+const Login = () => {
+
+    const [userName, setUserName] = useState('Your Name goes here')
+
+    const onUpdate = (evt) => {
+        setUserName(evt.target.value)
+    }
+
+    return <>
+        <h2>Name : {userName}</h2>
+        <input value={userName} onChange={onUpdate} />
+        <button onClick={() => {
+            alert(userName)
+        }}>Get Value</button>
+
+    </>
+
+}
+
+
+export default function App() {
+    return <div>
+        <Login />
+    </div>
+}
+Task:
+
+Create Registration Form:
+
+User Name
+Password 
+Gender - options
+Education -checkbox
+City -  selectbox
+
+
+
+
+
+
+
+
 
 
 

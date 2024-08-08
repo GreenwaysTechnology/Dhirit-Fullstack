@@ -1,43 +1,28 @@
 import React, { useState } from "react"
+import { produce } from "immer"
 
-class Review extends React.Component {
+const Login = () => {
 
-  state = {
-    like: 0
-  }
-  onIncrement = () => {
-    this.setState((prevState) => {
-      return {
-        like: prevState.like + 1
-      }
-    })
-  }
-  render() {
+    const [userName, setUserName] = useState('Your Name goes here')
+
+    const onUpdate = (evt) => {
+        setUserName(evt.target.value)
+    }
+
     return <>
-      <h1>{this.state.like}</h1>
-      <button onClick={this.onIncrement}>+</button>
-    </>
-  }
-}
+        <h2>Name : {userName}</h2>
+        <input value={userName} onChange={onUpdate} />
+        <button onClick={() => {
+            alert(userName)
+        }}>Get Value</button>
 
-const Counter = () => {
-  const [counter, setCounter] = useState(0)
-  const onIncrement = () => {
-    // setCounter((prevState) => {
-    //   return prevState + 1
-    // })
-    setCounter(counter + 1)
-  }
-  return <>
-    <h1>{counter}</h1>
-    <button onClick={onIncrement}>+</button>
-  </>
+    </>
 
 }
 
 
 export default function App() {
-  return <div>
-    <Counter />
-  </div>
+    return <div>
+        <Login />
+    </div>
 }
