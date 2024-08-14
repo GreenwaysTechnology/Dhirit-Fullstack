@@ -3079,8 +3079,97 @@ export default function App() {
     </div>
 }
 .....................................................................................
+			Component state
+
+Component state can be mananged inside component using state and setState or useState hook.
+
+Component state can be moved away from the component using Redux..
+
+.....................................................................................
+			 Redux -State Management
+.....................................................................................
+
+What is state?
+ State is nothing data.
+
+State is managed within component.
+
+What if i want to share the state across the application,there is pattern called "Lift up the state", pass as prop.
+
+In state management , redux is going to act as state layer, react is going act as UI layer.
+
+React and Redux is based on the design pattern "Flux Pattern"
 
 
+https://facebookarchive.github.io/flux/
+
+
+Action---->dispatcher----->Store<--->[Reducer] 
+			    |
+			    |
+			 View-React
+
+
+What is Redux -  Red-reducer + ux (Flux) => Reducer + Flux
+
+What is Reducer?
+  Reducer is pure function, which accepts input, returns immutable object...
+  Reducer is having biz logic.
+  Who calls reducer, reducer is called by store..
+  UI Layer never communicates biz logic (reducer) directly.
+  UI Layer sends request(action) --via dispatcher---to the store, then store reacts   to that
+
+Core Concepts or Principles:
+............................
+
+1.State:
+   Redux maintains or stores the data in "single object" Redux is going to store all 
+component state into one single object -Application State
+
+const appState = {
+  ....   
+} called as application state.
+
+How appState is identified for each compoent?
+
+Based on category/module.
+
+const appState = {
+  
+  order: {
+    
+  },
+  customer: {},
+  product:{}
+
+} 
+2.Store
+   Store is object where Redux application state lives.
+   Store offers api to communicate from react and redux to react
+   Store is entry and exit point of react and redux
+   Per application , there is single store, that store is having state..
+
+3.reducer
+    You know very well how to mutate and where mutate state in react
+     ->Inside setState pure function.
+    Reducer is pure function which returns immutable object.
+
+4.actions
+    An action is like request in webserver, redux actions are plain javascript object
+ eg:
+  let counterAction = {
+	type:'counter/increment'
+  }
+ action may take input also called payload
+  let counterByAmount = {
+   type:'counter/increment',
+   payload:2
+ }
+5.Dispatcher 
+  It is transporter which transport action object from react to redux
+  Dispatcher is represented by a method called "dispatch"
+  dispatch is part of "Store object"
+  store.dispatch(action)
 
 
 
