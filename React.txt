@@ -3172,8 +3172,368 @@ const appState = {
   store.dispatch(action)
 
 
+Create new project:
+...................
+
+npm create vite@latest
 
 
+Dependencies:
+............
+
+npm install @reduxjs/toolkit  react-redux
+
+
+Redux Coding:
+
+1.biz logic - reducer
+
+2.create Store object
+
+3.Configure store with reducer
+
+React coding :
+
+1.write component 
+2.consume data and call biz logic - callig redux logic
+3.Connect react and redux using react-redux lib
+
+Reducer Coding:
+
+1.pure function, having state mutation logic
+
+How to write reducer?
+
+1.old redux way
+
+2.new redux way - using redux toolkit
+
+
+1.old redux way;
+
+import { configureStore } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//redux coding
+//reducer 
+const CounterReducer = (counter = 100, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            return counter + 1
+        case 'counter/decrement':
+            return counter - 1
+        default:
+            //default state
+            return counter;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    }
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const counter = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        console.log('increment')
+        //dispactch an action to redux
+        const incrementAction = {
+            type: 'counter/increment'
+        }
+        dispatch(incrementAction)
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+....................................................................................
+				State as Object
+.....................................................................................
+import { configureStore } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//redux coding
+//reducer 
+const CounterReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            //immutable logic
+            return { ...state, counter: state.counter + 1 }
+        case 'counter/decrement':
+            //immutable logic
+            return { ...state, counter: state.counter - 1 }
+        default:
+            //default state
+            return state;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    }
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        console.log('increment')
+        //dispactch an action to redux
+        const incrementAction = {
+            type: 'counter/increment'
+        }
+        dispatch(incrementAction)
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+....................................................................................
+			immerjs and reducers
+.....................................................................................
+import { configureStore } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//redux coding
+//reducer 
+const CounterReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            //immutable logic
+            //return { ...state, counter: state.counter + 1 }
+            return produce(state, (draft) => {
+                draft.counter += 1
+            })
+        case 'counter/decrement':
+            //immutable logic
+            //return { ...state, counter: state.counter - 1 }
+            return produce(state, (draft) => {
+                draft.counter -= 1
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    }
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        console.log('increment')
+        //dispactch an action to redux
+        const incrementAction = {
+            type: 'counter/increment'
+        }
+        dispatch(incrementAction)
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+....................................................................................
+			  Multi Reducers
+...................................................................................
+
+import { configureStore } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+const IncrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            return produce(state, (draft) => {
+                draft.counter += 1
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+
+const DecrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/decrement':
+            return produce(state, (draft) => {
+                draft.counter -= 1
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        increment: IncrementReducer,
+        decrement: DecrementReducer
+    }
+})
+//react coding
+const Increment = () => {
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.increment
+    })
+    const dispatch = useDispatch()
+
+    return <div>
+        <h1>Incrementor : {state.counter}</h1>
+        <button onClick={() => {
+            dispatch({ type: 'counter/increment' })
+        }}>+</button>
+    </div>
+}
+
+const Decrement = () => {
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.decrement
+    })
+    const dispatch = useDispatch()
+
+    return <div>
+        <h1>Decrementor : {state.counter}</h1>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
+        }}>+</button>
+    </div>
+}
+
+const Counter = props => {
+    return <>
+        <Increment />
+        <hr />
+        <Decrement></Decrement>
+    </>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
 
 
 
