@@ -1,15 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { produce } from 'immer'
-import { StrictMode, useState } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 
 const IncrementReducer = (state = { counter: 10 }, action) => {
     //biz logic
     switch (action.type) {
-        case 'counter/incrementBy':
+        case 'counter/increment':
             return produce(state, (draft) => {
-                draft.counter += action.payload
+                draft.counter += 1
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+
+const DecrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/decrement':
+            return produce(state, (draft) => {
+                draft.counter -= 1
             })
         default:
             //default state
@@ -20,7 +34,9 @@ const IncrementReducer = (state = { counter: 10 }, action) => {
 //create store Object
 const appStore = configureStore({
     reducer: {
+        //name:Reference
         increment: IncrementReducer,
+        decrement: DecrementReducer
     }
 })
 //react coding
@@ -31,17 +47,25 @@ const Increment = () => {
     })
     const dispatch = useDispatch()
 
-    const [input, setInput] = useState(2)
-
     return <div>
         <h1>Incrementor : {state.counter}</h1>
-        <h3>{input}</h3>
-        <input type='number' onInput={(evt) => {
-            setInput(evt.target.value)
-        }} value={input} />
         <button onClick={() => {
-            //passing input to the reducer via action object
-            dispatch({ type: 'counter/incrementBy', payload: parseInt(input) })
+            dispatch({ type: 'counter/increment' })
+        }}>+</button>
+    </div>
+}
+
+const Decrement = () => {
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.decrement
+    })
+    const dispatch = useDispatch()
+
+    return <div>
+        <h1>Decrementor : {state.counter}</h1>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
         }}>+</button>
     </div>
 }
@@ -49,6 +73,8 @@ const Increment = () => {
 const Counter = props => {
     return <>
         <Increment />
+        <hr />
+        <Decrement></Decrement>
     </>
 }
 
