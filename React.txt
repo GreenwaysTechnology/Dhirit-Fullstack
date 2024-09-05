@@ -3972,9 +3972,224 @@ createRoot(document.getElementById('root')).render(
     </StrictMode>
 
 )
+....................................................................................
+			     createSlice
+			 (actions,reducers)
+....................................................................................
+
+it uses internally createAction,createReducer,immerjs api every thing in one place.
+
+createSlice api is standard apporach to write redux logic
+
+const slice = createSlice({})
+
+parameters:
+initalState
+name
+reducers
+extraReducers
+reducerPath
+selectors
+
+Return Value:
+selectors
+
+
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+
+const counterSlice = createSlice({
+    initialState: { counter: 0 },
+    name: 'counter',
+    reducers: {
+        //reducer logic
+        increment(state, action) {
+            //logic
+            state.counter++
+        },
+        decrement(state, action) {
+            //logic
+            state.counter--
+        }
+    }
+})
+
+//Extract Reducer from slice
+const CounterReducer = counterSlice.reducer
+
+//Extract actions (actionCreator) from the slice
+const {increment,decrement} = counterSlice.actions
+
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    }
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+         dispatch(increment())
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch(decrement())
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+....................................................................................
+			     Middlewares
+...................................................................................
+What is middleware?
+ Middleware is collection of functions, used for some cross cutting concerns...
+
+eg:
+logging
+TimeTravel
+async task
+
+configureStore(middleware:[])
+/**
+   * An array of Redux middleware to install. If not supplied, defaults to
+   * the set of middleware returned by `getDefaultMiddleware()`.
+   */
+middleware?: ((getDefaultMiddleware: CurriedGetDefaultMiddleware<S>) => M) | M
+
+This function has already default middlewars
+1.Immutability check middleware
+2.Serializability check middleware
+3.Action creator check middleware
+4.thunk
+
+ +
+
+Your middlewares
+
+To add Middleware
+
+Way 1:
+
+const middlewares = [thunk,immutableStateInvariant,seralizableStateInvariant]
+
+configureStore({
+ middleware: middlewares
+})
+
+way 2:
+configureStore({
+ middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(yourMiddleware)
+})
+
+Use case:
+Adding redux-logger:
+
+npm i --save redux-logger
 
 
 
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import logger from 'redux-logger'
 
+const counterSlice = createSlice({
+    initialState: { counter: 0 },
+    name: 'counter',
+    reducers: {
+        //reducer logic
+        increment(state, action) {
+            //logic
+            state.counter++
+        },
+        decrement(state, action) {
+            //logic
+            state.counter--
+        }
+    }
+})
 
+//Extract Reducer from slice
+const CounterReducer = counterSlice.reducer
+
+//Extract actions (actionCreator) from the slice
+const {increment,decrement} = counterSlice.actions
+
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    },
+    middleware:(getDefaultMiddleware=>getDefaultMiddleware().concat(logger))
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+         dispatch(increment())
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch(decrement())
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
 
