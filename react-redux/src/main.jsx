@@ -1,55 +1,58 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { produce } from 'immer'
-import { StrictMode, useState } from 'react'
+import { configureStore, createReducer } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 
-const IncrementReducer = (state = { counter: 10 }, action) => {
-    //biz logic
-    switch (action.type) {
-        case 'counter/incrementBy':
-            return produce(state, (draft) => {
-                draft.counter += action.payload
-            })
-        default:
-            //default state
-            return state;
-    }
+const initialState ={ counter: 10 }
 
-}
+const increment = 'counter/increment'
+const decrement ='counter/decrement'
+//Redux toolkit api:
+const CounterReducer=createReducer(initialState,(builder)=>{
+    builder.addCase(increment,(state,action)=>{
+        state.counter++
+    }).addCase(decrement,(state,action)=>{
+        state.counter--
+    }).addDefaultCase((state,action)=>{})
+})
+
+
 //create store Object
 const appStore = configureStore({
     reducer: {
-        increment: IncrementReducer,
+        //name:Reference
+        counter: CounterReducer
     }
 })
 //react coding
-const Increment = () => {
+
+const Counter = props => {
+
+    //read value from redux
     const state = useSelector((state) => {
         //appState.reducerName
-        return state.increment
+        return state.counter
     })
     const dispatch = useDispatch()
 
-    const [input, setInput] = useState(2)
+    const onIncrement = () => {
+        console.log('increment')
+        //dispactch an action to redux
+        const incrementAction = {
+            type: 'counter/increment'
+        }
+        dispatch(incrementAction)
+    }
 
     return <div>
-        <h1>Incrementor : {state.counter}</h1>
-        <h3>{input}</h3>
-        <input type='number' onInput={(evt) => {
-            setInput(evt.target.value)
-        }} value={input} />
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
         <button onClick={() => {
-            //passing input to the reducer via action object
-            dispatch({ type: 'counter/incrementBy', payload: parseInt(input) })
-        }}>+</button>
-    </div>
-}
+            dispatch({ type: 'counter/decrement' })
+        }}>-</button>
 
-const Counter = props => {
-    return <>
-        <Increment />
-    </>
+    </div>
 }
 
 const App = () => {

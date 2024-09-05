@@ -3665,12 +3665,313 @@ createRoot(document.getElementById('root')).render(
     </StrictMode>
 
 )
+....................................................................................
+			  Action constant
+....................................................................................
+
+As of now action constants are declared as string .
+
+eg:
+ const like ='review/like'
+
+import { configureStore } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//action constant
+const incrementBy = 'counter/incrementBy'
 
 
+const IncrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case incrementBy:
+            return produce(state, (draft) => {
+                draft.counter += action.payload
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        increment: IncrementReducer,
+    }
+})
+//react coding
+const Increment = () => {
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.increment
+    })
+    const dispatch = useDispatch()
+
+    const [input, setInput] = useState(2)
+
+    return <div>
+        <h1>Incrementor : {state.counter}</h1>
+        <h3>{input}</h3>
+        <input type='number' onInput={(evt) => {
+            setInput(evt.target.value)
+        }} value={input} />
+        <button onClick={() => {
+            //passing input to the reducer via action object
+            dispatch({ type:incrementBy, payload: parseInt(input) })
+        }}>+</button>
+    </div>
+}
+
+const Counter = props => {
+    return <>
+        <Increment />
+    </>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+....................................................................................
+			ActionCreator
+....................................................................................
+
+action creator:
+  it is function which returns action.
+  it is usefull for dynamic action
+
+ eg
+   function increment(payload){
+     
+      return {
+         type:'review/like',
+         payload:payload
+      }    
+   }
+
+    increment(2) => {
+         type:'review/like',
+         payload:2
+      }    
+
+if i want action creator, i need to declare two things, creator function and action constant.
+ 
+createAction function is used to declare action creator and also action constant.
+
+eg:
+import { configureStore } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//action constant
+const incrementBy = 'counter/incrementBy'
 
 
+const IncrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case incrementBy:
+            return produce(state, (draft) => {
+                draft.counter += action.payload
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        increment: IncrementReducer,
+    }
+})
+//react coding
+const Increment = () => {
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.increment
+    })
+    const dispatch = useDispatch()
+
+    const [input, setInput] = useState(2)
 
 
+    //action creator
+
+    function incrementAction(payload) {
+        return {
+            type: incrementBy,
+            payload: payload
+        }
+    }
+
+
+    return <div>
+        <h1>Incrementor : {state.counter}</h1>
+        <h3>{input}</h3>
+        <input type='number' onInput={(evt) => {
+            setInput(evt.target.value)
+        }} value={input} />
+        <button onClick={() => {
+            //passing input to the reducer via action object
+            dispatch(incrementAction(parseInt(input)))
+        }}>+</button>
+    </div>
+}
+
+const Counter = props => {
+    return <>
+        <Increment />
+    </>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
+.....................................................................................
+			 Modern Reducer syntax
+....................................................................................
+
+
+Old way:
+
+const IncrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case incrementBy:
+            return produce(state, (draft) => {
+                draft.counter += action.payload
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+
+Redux Toolkit way:
+
+1.using createReducer function
+2.using createSlice function
+
+
+2.1.Using createReducer api
+
+1.It is utillity function from redux-toolkit.
+2.It reduces lot of boiler plate code , provides standards based coding
+3.It is offering built in immer js api,so, no need of using "produce" directly..
+4.No need of switch..case and actions...
+
+createReducer api coding has 1 pattern
+
+1.builder pattern
+
+Syntax:
+
+const reducer= createReducer(initialState,(builder)=>{
+
+     builder.addCase(actionName,(state,action)=>{
+     //immer js code: produce function is built in
+      state.value++
+    }).addCase(actionName,(state,action)=>{
+     //immer js code: produce function is built in
+      state.value++
+   }).addDefaultCase((state,action)=>{})
+
+})
+
+import { configureStore, createReducer } from '@reduxjs/toolkit'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+const initialState ={ counter: 10 }
+
+const increment = 'counter/increment'
+const decrement ='counter/decrement'
+//Redux toolkit api:
+const CounterReducer=createReducer(initialState,(builder)=>{
+    builder.addCase(increment,(state,action)=>{
+        state.counter++
+    }).addCase(decrement,(state,action)=>{
+        state.counter--
+    }).addDefaultCase((state,action)=>{})
+})
+
+//create store Object
+const appStore = configureStore({
+    reducer: {
+        //name:Reference
+        counter: CounterReducer
+    }
+})
+//react coding
+
+const Counter = props => {
+
+    //read value from redux
+    const state = useSelector((state) => {
+        //appState.reducerName
+        return state.counter
+    })
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        console.log('increment')
+        //dispactch an action to redux
+        const incrementAction = {
+            type: 'counter/increment'
+        }
+        dispatch(incrementAction)
+    }
+
+    return <div>
+        <h1>Counter -React -Redux</h1>
+        <h2>Counter : {state.counter}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: 'counter/decrement' })
+        }}>-</button>
+
+    </div>
+}
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>
+
+)
 
 
 
