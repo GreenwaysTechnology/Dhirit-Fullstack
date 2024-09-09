@@ -1,63 +1,72 @@
-import { configureStore, createReducer } from '@reduxjs/toolkit'
-import { StrictMode } from 'react'
+import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { StrictMode,useEffect} from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider, useDispatch, useSelector } from 'react-redux'
+import logger from 'redux-logger'
 
-const initialState ={ counter: 10 }
-
-const increment = 'counter/increment'
-const decrement ='counter/decrement'
-//Redux toolkit api:
-const CounterReducer=createReducer(initialState,(builder)=>{
-    builder.addCase(increment,(state,action)=>{
-        state.counter++
-    }).addCase(decrement,(state,action)=>{
-        state.counter--
-    }).addDefaultCase((state,action)=>{})
+//thunk code:middleware code
+const getPosts = createAsyncThunk('posts/getPosts', async (thunkAPI) => {
+    //api call
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const posts = await res.json()
+    return posts
 })
 
+//slice :
+const initialState = {
+    entities: [],
+    loading: false,
+
+}
+const postsSlice = createSlice({
+    initialState,
+    name: 'posts',
+    reducers: {},
+    extraReducers(builder) {
+        builder.addCase(getPosts.pending, (state, action) => {
+            state.loading = true
+        }).addCase(getPosts.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.entities = payload
+        }).addCase(getPosts.rejected, (state, action) => {
+            state.loading = false
+        })
+    }
+})
+const postReducer = postsSlice.reducer
 
 //create store Object
 const appStore = configureStore({
     reducer: {
-        //name:Reference
-        counter: CounterReducer
-    }
+        posts: postReducer
+    },
+    middleware: (getDefaultMiddleware => getDefaultMiddleware().concat(logger))
 })
 //react coding
 
-const Counter = props => {
-
-    //read value from redux
-    const state = useSelector((state) => {
-        //appState.reducerName
-        return state.counter
-    })
+function Post() {
     const dispatch = useDispatch()
+    const { entities, loading } = useSelector((state) => state.posts)
 
-    const onIncrement = () => {
-        console.log('increment')
-        //dispactch an action to redux
-        const incrementAction = {
-            type: 'counter/increment'
-        }
-        dispatch(incrementAction)
-    }
+    useEffect(() => {
+        dispatch(getPosts())
+    }, [])
 
-    return <div>
-        <h1>Counter -React -Redux</h1>
-        <h2>Counter : {state.counter}</h2>
-        <button onClick={onIncrement}>+</button>
-        <button onClick={() => {
-            dispatch({ type: 'counter/decrement' })
-        }}>-</button>
+    if (loading) return <p>Loading...</p>
 
-    </div>
+    return (
+        <div>
+            <h2>Blog Posts</h2>
+            {entities.map((post) => (
+                <p key={post.id}>{post.title}</p>
+            ))}
+        </div>
+    )
 }
 
 const App = () => {
     return <Provider store={appStore}>
-        <Counter />
+            <Post></Post>
     </Provider>
 }
 
